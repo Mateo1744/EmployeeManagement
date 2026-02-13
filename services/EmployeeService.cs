@@ -58,5 +58,15 @@ namespace EmployeeManagement.Services
 
             return "Empleado registrado exitosamente.";
         }
+        public Employee GetEmployeeById(int id)
+        {
+            if (id <= 0)
+            {
+                return null;
+            }
+
+            return employees.Find(e => e.Id == id);
+        }
+
     }
 }

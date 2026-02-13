@@ -17,7 +17,8 @@ namespace EmployeeManagement
                 Console.WriteLine(" SISTEMA DE GESTIÓN DE EMPLEADOS ");
                 Console.WriteLine("====================================");
                 Console.WriteLine("1. Registrar empleado");
-                Console.WriteLine("2. Salir");
+                Console.WriteLine("2. Consultar empleado");
+                Console.WriteLine("3. Salir");
                 Console.WriteLine("====================================");
                 Console.Write("Seleccione una opción: ");
 
@@ -30,6 +31,10 @@ namespace EmployeeManagement
                         break;
 
                     case "2":
+                        GetEmployee(employeeService);
+                        break;
+
+                    case "3":
                         exit = true;
                         Console.WriteLine("Saliendo del sistema...");
                         break;
@@ -85,5 +90,35 @@ namespace EmployeeManagement
 
             Console.WriteLine(result);
         }
+        static void GetEmployee(EmployeeService employeeService)
+        {
+            Console.Clear();
+            Console.WriteLine("=== CONSULTAR EMPLEADO ===");
+
+            Console.Write("Ingrese el ID del empleado: ");
+            bool isValidId = int.TryParse(Console.ReadLine(), out int id);
+
+            if (!isValidId)
+            {
+                Console.WriteLine("Error: El ID debe ser un número válido.");
+                return;
+            }
+
+            var employee = employeeService.GetEmployeeById(id);
+
+            if (employee == null)
+            {
+                Console.WriteLine("Empleado no encontrado.");
+                return;
+            }
+
+            Console.WriteLine("\n--- Información del Empleado ---");
+            Console.WriteLine($"ID: {employee.Id}");
+            Console.WriteLine($"Nombre: {employee.FullName}");
+            Console.WriteLine($"Correo: {employee.Email}");
+            Console.WriteLine($"Activo: {(employee.IsActive ? "Sí" : "No")}");
+            Console.WriteLine($"Fecha fin de contrato: {employee.ContractEndDate:yyyy-MM-dd}");
+        }
+
     }
 }
